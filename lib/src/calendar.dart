@@ -477,8 +477,9 @@ class _TableCalendarState extends State<TableCalendar> with SingleTickerProvider
         break;
     }
 
-    return Container(
+    return Material(
       key: key,
+      type: MaterialType.transparency,
       child: wrappedChild,
     );
   }
@@ -637,10 +638,18 @@ class _TableCalendarState extends State<TableCalendar> with SingleTickerProvider
       }
     }
 
-    return GestureDetector(
-      behavior: widget.dayHitTestBehavior,
+    bool isCancelled = false;
+    return InkWell(
+//      behavior: widget.dayHitTestBehavior,
       onTap: () => _isDayUnavailable(date) ? _onUnavailableDaySelected() : _selectDay(date),
-      onLongPress: () => _isDayUnavailable(date) ? _onUnavailableDayLongPressed() : _onDayLongPressed(date),
+      onLongPress: (widget.onUnavailableDayLongPressed == null && widget.onDayLongPressed == null) ?
+        null : () => _isDayUnavailable(date) ? _onUnavailableDayLongPressed() : _onDayLongPressed(date),
+//      onTapDown: () {
+//        final func = _isDayUnavailable(date) ? _onUnavailableDayLongPressed : () => _onDayLongPressed(date);
+//
+//
+//      },
+//      onLongPress: () => _isDayUnavailable(date) ? _onUnavailableDayLongPressed() : _onDayLongPressed(date),
       child: content,
     );
   }
